@@ -1,12 +1,13 @@
 # Readme for run_analysis.R
 
-[code language="r"]
+```r
 
 >Loading dplyr
 
-~~~~
+```r
 library(dplyr)
-~~~~
+```
+
 
 >For the rest of the code, the assumption is that the data is unzipped in the working directory.
 >Feel free to change the pathname to point to an alternative directory if the files are unzipped in a different location.
@@ -86,4 +87,5 @@ result<-summarize_each(group_by(df,subject,activity),funs(mean))
 ~~~~
 write.table(result,"result.txt",row.names=FALSE)
 ~~~~
-[/code]
+
+```
