@@ -1,39 +1,41 @@
 # Readme for run_analysis.R
 
-Loading dplyr
+>Loading dplyr
 
 ~~~~
 library(dplyr)
 ~~~~
 
-Reading in list of features assuming that the data is unzipped in the working directory.
-Feel free to change the pathname to point to an alternative directory
+>For the rest of the code, the assumption is that the data is unzipped in the working directory.
+>Feel free to change the pathname to point to an alternative directory if the files are unzipped in a different location.
+
+
+>Reading in list of features, which is just the list of column names of the xtrain or xtest data
 
 ~~~~
 colnames<-read.table("./UCI HAR Dataset/features.txt")
 ~~~~
 
-
-Reading and labelling training data (Q4)
-
-~~~~
-`subjecttrain<-read.table("./UCI HAR Dataset/train/subject_train.txt",col.names="subject")`
-`ytrain<-read.table("./UCI HAR Dataset/train/y_train.txt",col.names="activity")`
-`xtrain<-read.table("./UCI HAR Dataset/train/x_train.txt",col.names=colnames[,2])`
-~~~~
-
-
-Reading and labelling test data (Q4)
+>Reading and labelling training and test data.  I've labelled the columns here (hence answering Q4) so that it's easier to subset the mean and std columns later.
 
 ~~~~
-`subjecttest<-read.table("./UCI HAR Dataset/test/subject_test.txt",col.names="subject")`
-`ytest<-read.table("./UCI HAR Dataset/test/y_test.txt",col.names="activity")`
-`xtest<-read.table("./UCI HAR Dataset/test/x_test.txt",col.names=colnames[,2])`
+subjecttrain<-read.table("./UCI HAR Dataset/train/subject_train.txt",col.names="subject")
+ytrain<-read.table("./UCI HAR Dataset/train/y_train.txt",col.names="activity")
+xtrain<-read.table("./UCI HAR Dataset/train/x_train.txt",col.names=colnames[,2])
 ~~~~
 
-Combining respective datasets
-'train<-cbind(subjecttrain,ytrain,xtrain)'
-'test<-cbind(subjecttest,ytest,xtest)'
+~~~~
+subjecttest<-read.table("./UCI HAR Dataset/test/subject_test.txt",col.names="subject")
+ytest<-read.table("./UCI HAR Dataset/test/y_test.txt",col.names="activity")
+xtest<-read.table("./UCI HAR Dataset/test/x_test.txt",col.names=colnames[,2])
+~~~~
+
+>Combining respective datasets
+
+~~~~
+train<-cbind(subjecttrain,ytrain,xtrain)
+test<-cbind(subjecttest,ytest,xtest)
+~~~~
 
 # Merging training and test dataset and sorting according to subject and activity (Q1)
 
