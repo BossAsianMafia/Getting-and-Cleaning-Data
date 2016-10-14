@@ -1,5 +1,7 @@
 # Readme for run_analysis.R
 
+[code language="r"]
+
 >Loading dplyr
 
 ~~~~
@@ -84,3 +86,4 @@ result<-summarize_each(group_by(df,subject,activity),funs(mean))
 ~~~~
 write.table(result,"result.txt",row.names=FALSE)
 ~~~~
+[/code]
