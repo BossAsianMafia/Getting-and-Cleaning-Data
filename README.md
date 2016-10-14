@@ -30,38 +30,56 @@ ytest<-read.table("./UCI HAR Dataset/test/y_test.txt",col.names="activity")
 xtest<-read.table("./UCI HAR Dataset/test/x_test.txt",col.names=colnames[,2])
 ~~~~
 
->Combining respective datasets
+>Forming the respective datasets so that the first column is the subject (from subjecttrain/subjecttest), second column is the activity (from ytrain/ytest) 
+>and the subsequent columns are the features
 
 ~~~~
 train<-cbind(subjecttrain,ytrain,xtrain)
 test<-cbind(subjecttest,ytest,xtest)
 ~~~~
 
-# Merging training and test dataset and sorting according to subject and activity (Q1)
+>Merging training and test dataset and sorting according to subject and activity (as per Q1)
 
+~~~
 mergeddf<-rbind(train,test) %>% arrange(subject,activity)
+~~~
 
-# Selecting the measurements on the mean and standard deviation for each measurement (Q2)
+>Selecting the measurements on the mean and standard deviation for each measurement (as per Q2)
+>Variable names with mean as part of the description (e.g. MeanFreq) rather than as a mean of the measurement were not selected
 
-meanandstd<-select(mergeddf,subject,activity,c(grep("mean.",names(mergeddf),fixed=TRUE),grep("std()",names(mergeddf))))
+~~~~
+meanandstd<-select(mergeddf,subject,activity,c(grep("mean.",names(mergeddf),fixed=TRUE),grep("std",names(mergeddf))))
+~~~~
 
-# Replacing Activity IDs with Description of activities (Q3)
+>Replacing Activity IDs with Description of activities (Q3)
+>This was done by first assigning the activity labels (taken from the text file) to a vector
+>then replacing each cell of the relevant column in the data frame with the respective activity labels
 
+~~~~
 activitylabels<-c("Walking","Walking_Upstairs","Walking_Downstairs","Sitting","Standing","Laying")
 
 for (i in 1:6)
   {meanandstd$activity<-replace(meanandstd$activity,meanandstd$activity == i,activitylabels[i])}
+~~~~
 
-# Grouping data-frame for summarize
+>Converting the subject and activity variables to factors 
+>Then grouping data-frame in preparation for summarize
 
+~~~~
 meanandstd$subject<-as.factor(meanandstd$subject)
 meanandstd$activity<-as.factor(meanandstd$activity)
 
 df<-group_by(meanandstd,subject,activity)
+~~~~
 
-# Generating resulting data-frame with average of each variable by subject and by activity
+>Generating resulting data-frame with mean of each variable by subject and by activity
 
+~~~~
 result<-summarize_each(group_by(df,subject,activity),funs(mean))
+~~~~
 
-# Export table
+>Export table
+
+~~~~
 write.table(result,"result.txt",row.names=FALSE)
+~~~~
