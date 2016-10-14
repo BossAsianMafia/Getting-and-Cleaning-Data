@@ -1,7 +1,5 @@
 # Readme for run_analysis.R
 
-```r
-
 >Loading dplyr
 
 ```r
@@ -15,9 +13,9 @@ library(dplyr)
 
 >Reading in list of features, which is just the list of column names of the xtrain or xtest data
 
-~~~~
+```r
 colnames<-read.table("./UCI HAR Dataset/features.txt")
-~~~~
+```
 
 >Reading and labelling training and test data.  I've labelled the columns here (hence answering Q4) so that it's easier to subset the mean and std columns later.
 
@@ -88,4 +86,4 @@ result<-summarize_each(group_by(df,subject,activity),funs(mean))
 write.table(result,"result.txt",row.names=FALSE)
 ~~~~
 
-```
+
